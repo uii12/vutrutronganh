@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Ring Galaxy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { 
+            margin: 0; 
+            background: #000000;
+            overflow: hidden; 
+            font-family: 'Arial', sans-serif;
+        }
+        canvas { 
+            display: block; 
+            width: 100vw !important; 
+            height: 100vh !important; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            z-index: 1;
+        }
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+            background-size: 10px 10px;
+            z-index: 0;
+            animation: twinkle 4s infinite;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            50% { opacity: 0.9; }
+            100% { opacity: 0.5; }
+        }
+        .info {
+            position: absolute;
+            top: 70px;
+            left: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 3;
+        }
+        .hidden { display: none !important; }
+        /* Spinner cho nút */
+        .spinner {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border: 2px solid #fff;
+          border-top: 2px solid #ff6b6b;
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          margin-right: 8px;
+          vertical-align: middle;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg);}
+          100% { transform: rotate(360deg);}
+        }
+        /* Shrimp (pop/zoom) effect cho popup */
+        .shrimp-popup {
+          animation: scale-in 0.38s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        @keyframes scale-in {
+          0% { transform: scale(0.7); opacity: 0; }
+          80% { transform: scale(1.08); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <canvas id="canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;pointer-events:none;"></canvas>
+    <div class="stars-bg"></div>
+    
+    <!-- Thêm bảng hướng dẫn -->
+    <div class="help-panel">
+        <div class="controls-header">
+            <h3>Hướng dẫn sử dụng</h3>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="help-section">
+            <div class="section-divider">
+                <h4>Điều khiển cơ bản</h4>
+            </div>
+            <ul>
+                <li><span class="label-pc">[PC]</span> Click đúp chuột: phát nhạc và kích hoạt hiệu ứng camera</li>
+                <li><span class="label-pc">[PC]</span> Click chuột phải/Phím Space: Kích hoạt hiệu ứng bay của vòng ảnh</li>
+                <li><span class="label-mobile">[Mobile]</span>Double tap vào màn hình: phát nhạc và kích hoạt hiệu ứng camera</li>
+                <li><span class="label-mobile">[Mobile]</span> Ấn vào Món quà nhỏ: Kích hoạt hiệu ứng bay của vòng ảnh</li>
+            </ul>
+        </div>
+
+        <div class="help-section">
+            <div class="section-divider">
+                <h4>Điều chỉnh góc nhìn</h4>
+            </div>
+            <ul>
+                <li>Click và kéo: Xoay camera</li>
+                <li>Cuộn chuột: Phóng to/thu nhỏ</li>
+                <li>Mobile: Vuốt để xoay, chụm/tách để phóng to/thu nhỏ</li>
+            </ul>
+        </div>
+
+        <!-- <div class="help-section">
+            <div class="section-divider">
+                <h4>Tùy chỉnh <<Đối với người tạo>></h4>
+            </div>
+            <p>Nhấn vào biểu tượng CÀI ĐẶT ở góc phải để:</p>
+            <ul>
+                <li>Thay đổi màu sắc (hạt, tinh cầu)</li>
+                <li>Điều chỉnh tốc độ xoay,tốc độ bay của ảnh và hạt</li>
+                <li>Chọn chế độ màu tự động hoặc tùy chỉnh</li>
+                <li>Thay đổi ảnh và âm thanh</li>
+            </ul>
+        </div> -->
+    </div>
+
+ 
+    
+   
+    
+   
+    
+    <!-- Icon hướng dẫn lùi xuống dưới -->
+    <div class="help-icon">
+        <i class="fas fa-question-circle"></i>
+    </div>
+    
+    <!-- Bảng hướng dẫn nhanh cho Mobile -->
+    <div class="quick-help-panel mobile-help" id="mobileQuickHelp">
+        <div class="quick-help-header">
+            <h3>📱 Hướng dẫn Mobile</h3>
+            <button class="quick-help-close-btn" onclick="closeQuickHelp('mobile')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="quick-help-content">
+            <div class="quick-help-section">
+                <h4>🎵 Điều khiển nhạc & Camera</h4>
+                <p>Double tap vào màn hình để kích hoạt hiệu ứng camera</p>
+            </div>
+            <div class="quick-help-section">
+                <h4>🌸 Hiệu ứng bay vòng ảnh</h4>
+                <p>Ấn vào "Món quà nhỏ" ở giữa màn hình để kích hoạt hiệu ứng bay</p>
+            </div>
+            <div class="quick-help-section">
+                <h4>☄️ Mưa sao băng</h4>
+                <p>Tự động bật khi thiên hà có tính năng này</p>
+            </div>
+            <div class="quick-help-section">
+                <h4>🎮 Điều khiển camera</h4>
+                <p>Vuốt để xoay, chụm/tách để phóng to/thu nhỏ</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bảng hướng dẫn nhanh cho Desktop -->
+    <div class="quick-help-panel desktop-help" id="desktopQuickHelp">
+        <div class="quick-help-header">
+            <h3>💻 Hướng dẫn Desktop</h3>
+            <button class="quick-help-close-btn" onclick="closeQuickHelp('desktop')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="quick-help-content">
+            <div class="quick-help-section">
+                <h4>🎵 Điều khiển nhạc & Camera</h4>
+                <p>Click đúp chuột để kích hoạt hiệu ứng camera</p>
+            </div>
+            <div class="quick-help-section">
+                <h4>🌸 Hiệu ứng bay vòng ảnh</h4>
+                <p>Click chuột phải hoặc nhấn phím Space để kích hoạt hiệu ứng bay</p>
+            </div>
+            <div class="quick-help-section">
+                <h4>☄️ Mưa sao băng</h4>
+                <p>Tự động bật khi thiên hà có tính năng này</p>
+            </div>
+            <div class="quick-help-section">
+                <h4>🎮 Điều khiển camera</h4>
+                <p>Click và kéo để xoay, cuộn chuột để phóng to/thu nhỏ</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Nút Món quà nhỏ ở chính giữa trên cùng màn hình -->
+    <button id="gift-btn" class="gift-btn">Món quà nhỏ</button>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+        "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js",
+        "three/addons/loaders/FontLoader.js": "https://unpkg.com/three@0.152.2/examples/jsm/loaders/FontLoader.js",
+        "three/addons/geometries/TextGeometry.js": "https://unpkg.com/three@0.152.2/examples/jsm/geometries/TextGeometry.js",
+        "three/addons/utils/BufferGeometryUtils.js": "https://unpkg.com/three@0.152.2/examples/jsm/utils/BufferGeometryUtils.js",
+        "three/addons/loaders/GLTFLoader.js": "https://unpkg.com/three@0.152.2/examples/jsm/loaders/GLTFLoader.js"
+      }
+    }
+    </script>
+    
+    <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+    import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+    import { AudioManager } from './js/audio.js';
+    import { ParticleSystem } from './js/particles.js';
+    import { CentralSphere } from './js/sphere.js';
+    import { FlowerRingSystem } from './js/flowerRing.js';
+    import { CameraController } from './js/camera.js';
+    import { Heart } from './js/modelGlb.js';
+    // import { processPayment, createPaymentModal, showToast } from './js/payment.js';
+
+    // Xử lý sự kiện cho bảng hướng dẫn
+    const helpIcon = document.querySelector('.help-icon');
+    const helpPanel = document.querySelector('.help-panel');
+    const helpCloseBtn = helpPanel.querySelector('.close-btn');
+
+    helpIcon.addEventListener('click', () => {
+        // Mở bằng icon - cũng hiển thị ở giữa màn hình
+        helpPanel.classList.add('center');
+        helpPanel.classList.add('active');
+    });
+
+    helpCloseBtn.addEventListener('click', () => {
+        helpPanel.classList.remove('active', 'center');
+    });
+
+    // Đóng bảng hướng dẫn khi click ngoài
+    document.addEventListener('click', (e) => {
+        if (helpPanel.classList.contains('active') && 
+            !helpPanel.contains(e.target) && 
+            !helpIcon.contains(e.target)) {
+            helpPanel.classList.remove('active', 'center');
+        }
+    });
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.body.appendChild(renderer.domElement);
+    window.renderer = renderer;
+
+    // Add ambient light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    // Add point lights
+    const light1 = new THREE.PointLight(0xffffff, 1, 500);
+    light1.position.set(100, 100, 100);
+    scene.add(light1);
+    
+    const light2 = new THREE.PointLight(0xffffff, 0.5, 500);
+    light2.position.set(-100, -100, -100);
+    scene.add(light2);
+
+    // Khởi tạo AudioManager duy nhất
+    if (!window.audioManager) {
+        window.audioManager = new AudioManager();
+    }
+
+    // Initialize systems
+    const audioManager = window.audioManager;
+    const particleSystem = new ParticleSystem(scene);
+    window.particleSystem = particleSystem;
+    const centralSphere = new CentralSphere(scene);
+    window.centralSphere = centralSphere;
+    centralSphere.setParticleSystem(particleSystem);
+    const flowerRingSystem = new FlowerRingSystem(scene);
+    centralSphere.setFlowerRing(flowerRingSystem);
+    const cameraController = new CameraController(camera, renderer);
+    const heart = new Heart(scene);
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        cameraController.handleResize();
+    });
+
+    // Double-click handler for desktop
+    window.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        console.log('Double-click detected!');
+        audioManager.playOnly();
+        cameraController.triggerAnimation();
+    });
+
+    // Double tap handler for mobile
+    let lastTap = 0;
+    let tapCount = 0;
+    let tapTimer = null;
+    let lastTapX = 0;
+    let lastTapY = 0;
+    let isZooming = false;
+
+    const handleDoubleTap = (event) => {
+        // Kiểm tra nếu đang zoom thì bỏ qua
+        if (isZooming) {
+            return;
+        }
+
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        
+        // Lấy tọa độ từ changedTouches (cho touchend) hoặc touches (cho touchstart)
+        let currentX, currentY;
+        if (event.changedTouches && event.changedTouches.length > 0) {
+            currentX = event.changedTouches[0].clientX;
+            currentY = event.changedTouches[0].clientY;
+        } else if (event.touches && event.touches.length > 0) {
+            currentX = event.touches[0].clientX;
+            currentY = event.touches[0].clientY;
+        } else {
+            currentX = event.clientX || 0;
+            currentY = event.clientY || 0;
+        }
+        
+        // Tính khoảng cách giữa 2 tap
+        const distance = Math.sqrt(
+            Math.pow(currentX - lastTapX, 2) + 
+            Math.pow(currentY - lastTapY, 2)
+        );
+        
+        // Double tap detected: thời gian < 600ms, khoảng cách < 30px, và không phải zoom
+        if (tapLength < 600 && tapLength > 100 && distance < 30) {
+            console.log('Double tap detected!');
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Clear any pending single tap
+            if (tapTimer) {
+                clearTimeout(tapTimer);
+                tapTimer = null;
+            }
+            
+            // Trigger the same actions as double click
+            audioManager.playOnly();
+            cameraController.triggerAnimation();
+            
+            // Reset tap count
+            tapCount = 0;
+        } else {
+            // Single tap - wait to see if it becomes a double tap
+            tapCount++;
+            if (tapCount === 1) {
+                tapTimer = setTimeout(() => {
+                    // Single tap confirmed
+                    tapCount = 0;
+                }, 600);
+            }
+        }
+        
+        lastTap = currentTime;
+        lastTapX = currentX;
+        lastTapY = currentY;
+    };
+
+    // Detect zoom gesture
+    let initialDistance = 0;
+    const handleTouchStart = (event) => {
+        if (event.touches.length === 2) {
+            initialDistance = Math.sqrt(
+                Math.pow(event.touches[0].clientX - event.touches[1].clientX, 2) +
+                Math.pow(event.touches[0].clientY - event.touches[1].clientY, 2)
+            );
+            isZooming = true;
+        }
+    };
+
+    const handleTouchEnd = () => {
+        // Reset zoom state after a delay
+        setTimeout(() => {
+            isZooming = false;
+        }, 300);
+    };
+
+    // Add double tap listener for mobile (chỉ dùng document)
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    if (isMobile) {
+        document.addEventListener('touchend', handleDoubleTap);
+        document.addEventListener('touchstart', handleTouchStart);
+        document.addEventListener('touchend', handleTouchEnd);
+    }
+
+    // Thêm xử lý click chuột phải
+    window.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+        console.log('Right click detected!');
+        if (flowerRingSystem) {
+            console.log('Triggering flying effect');
+            flowerRingSystem.triggerFlyingEffect();
+        }
+    });
+
+    // Thêm xử lý phím tắt (phím Space)
+    window.addEventListener('keydown', (event) => {
+        if (event.code === 'Space') {
+            event.preventDefault();
+            console.log('Space key detected!');
+            if (flowerRingSystem) {
+                console.log('Triggering flying effect');
+                flowerRingSystem.triggerFlyingEffect();
+            }
+        }
+        // Bỏ phím Enter để bật/tắt mưa sao băng - chỉ dùng nút trên mobile
+    });
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        particleSystem.animate();
+        centralSphere.animate();
+        flowerRingSystem.animate();
+        cameraController.update();
+        heart.animate();
+        
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Trong <script type="module">, sau khi khởi tạo flowerRingSystem
+    const giftBtn = document.getElementById('gift-btn');
+    if (giftBtn) {
+        giftBtn.addEventListener('click', () => {
+            if (flowerRingSystem) {
+                console.log('Triggering flying effect from gift button');
+                flowerRingSystem.triggerFlyingEffect();
+            }
+            giftBtn.style.display = 'none';
+        });
+    }
+
+    // Sau khi xử lý DOMContentLoaded, nếu là web con thì đẩy icon âm thanh lên vị trí icon cài đặt
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash;
+        
+       
+        
+        // Xử lý cho web con (có #config= hoặc #id=)
+        if (hash.startsWith('#config=') || hash.startsWith('#id=')) {
+            // Ẩn nút Google login triệt để
+            const googleLoginBtn = document.getElementById('googleLoginBtn');
+            if (googleLoginBtn) {
+                googleLoginBtn.style.display = 'none';
+                googleLoginBtn.classList.add('hidden');
+            }
+           
+            // Đưa nút hướng dẫn lên vị trí góc trên trái (thay vị trí login)
+            const helpIcon = document.querySelector('.help-icon');
+            if (helpIcon) {
+                helpIcon.style.position = 'fixed';
+                helpIcon.style.top = '20px';
+                helpIcon.style.left = '20px';
+                helpIcon.style.right = '';
+                helpIcon.style.zIndex = 1003;
+                helpIcon.style.marginLeft = '0';
+            }
+        }
+        
+        // Hiển thị bảng hướng dẫn nhanh khi mở web
+        setTimeout(() => {
+            // Chỉ hiển thị bảng hướng dẫn nhanh trên web con (có config hoặc id)
+            if (hash.startsWith('#config=') || hash.startsWith('#id=')) {
+                showQuickHelp();
+            }
+            // Hiển thị bảng hướng dẫn chính cho web cha (cả desktop và mobile)
+            else {
+                showMainHelp();
+            }
+        }, 1000); // Đợi 1 giây để trang load hoàn toàn
+    });
+    
+    // Hàm hiển thị bảng hướng dẫn nhanh
+    function showQuickHelp() {
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        const mobileHelp = document.getElementById('mobileQuickHelp');
+        const desktopHelp = document.getElementById('desktopQuickHelp');
+        
+        if (isMobile && mobileHelp) {
+            mobileHelp.classList.add('active');
+        } else if (!isMobile && desktopHelp) {
+            desktopHelp.classList.add('active');
+        }
+    }
+    
+    // Hàm đóng bảng hướng dẫn nhanh
+    function closeQuickHelp(type) {
+        const helpPanel = document.getElementById(type + 'QuickHelp');
+        if (helpPanel) {
+            helpPanel.classList.remove('active');
+            // Phát nhạc khi đóng bảng hướng dẫn
+            if (window.audioManager) {
+                window.audioManager.playOnly();
+            }
+        }
+    }
+    
+    // Thêm vào global scope để có thể gọi từ onclick
+    window.closeQuickHelp = closeQuickHelp;
+    
+    // Đóng bảng hướng dẫn khi click bên ngoài
+    document.addEventListener('click', (event) => {
+        const mobileHelp = document.getElementById('mobileQuickHelp');
+        const desktopHelp = document.getElementById('desktopQuickHelp');
+        
+        if (mobileHelp && mobileHelp.classList.contains('active') && 
+            !mobileHelp.contains(event.target) && 
+            !event.target.closest('.quick-help-close-btn')) {
+            mobileHelp.classList.remove('active');
+            // Phát nhạc khi đóng bảng hướng dẫn
+            if (window.audioManager) {
+                window.audioManager.playOnly();
+            }
+        }
+        
+        if (desktopHelp && desktopHelp.classList.contains('active') && 
+            !desktopHelp.contains(event.target) && 
+            !event.target.closest('.quick-help-close-btn')) {
+            desktopHelp.classList.remove('active');
+            // Phát nhạc khi đóng bảng hướng dẫn
+            if (window.audioManager) {
+                window.audioManager.playOnly();
+            }
+        }
+    });
+
+    // Hàm hiển thị bảng hướng dẫn chính cho web cha
+    function showMainHelp() {
+        const helpPanel = document.querySelector('.help-panel');
+        if (helpPanel) {
+            // Lần đầu mở - hiển thị ở giữa màn hình
+            helpPanel.classList.add('center');
+            helpPanel.classList.add('active');
+        }
+    }
+    </script>
+
+    <script type="module" src="./js/sphere.js"></script>
+    <div id="flower-loading-overlay" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(255,255,255,0.5);backdrop-filter:blur(4px);z-index:9999;pointer-events:none;"></div>
+    <audio id="bg-audio" style="display:none"></audio>
+    <canvas id="canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;pointer-events:none;"></canvas>
+    <script src="./js/meteors.js"></script>
+</body>
+</html>

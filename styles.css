@@ -1,0 +1,1017 @@
+.settings-icon {
+    /* cài hiện nút setting (display )*/
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.settings-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Web cha - làm nổi bật nút cài đặt */
+body:not([href*="#config="]):not([href*="#id="]) .settings-icon {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+body:not([href*="#config="]):not([href*="#id="]) .settings-icon:hover {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+body:not([href*="#config="]):not([href*="#id="]) .settings-icon i {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 1000;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.2);
+    min-width: 250px;
+}
+
+.controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.controls-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.color-mode {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.color-mode button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.color-mode button.active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.color-picker {
+    margin-bottom: 15px;
+}
+
+.color-picker label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.color-picker input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background: none;
+}
+
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    height: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.speed-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.speed-btn {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.speed-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.speed-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.particle-colors {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.particle-colors .color-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.particle-colors label {
+    min-width: 100px;
+    color: #fff;
+}
+
+.particle-colors input[type="color"] {
+    width: 50px;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.particle-colors input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.particle-colors input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+.controls::-webkit-scrollbar {
+    width: 8px;
+}
+
+.controls::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.controls::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.controls::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.section-divider {
+    margin: 15px 0 10px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.section-divider h4 {
+    margin: 0;
+    color: #ffccf2;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.help-icon {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.help-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Web cha - làm nổi bật nút hướng dẫn */
+body:not([href*="#config="]):not([href*="#id="]) .help-icon {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+body:not([href*="#config="]):not([href*="#id="]) .help-icon:hover {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+body:not([href*="#config="]):not([href*="#id="]) .help-icon::before {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.help-panel {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 1000;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+    display: none;
+}
+
+.help-panel.active {
+    display: block;
+}
+
+/* Bảng hướng dẫn ở giữa màn hình khi lần đầu mở */
+.help-panel.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90vw;
+    max-height: 90vh;
+    min-width: 85vw;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.help-panel h3 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #ffccf2;
+}
+
+.help-panel .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.help-section {
+    margin-bottom: 20px;
+}
+
+.help-section h4 {
+    color: #ffccf2;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.help-section p {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.help-section ul {
+    margin: 5px 0;
+    padding-left: 20px;
+}
+
+.help-section li {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.help-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.help-panel::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.help-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.help-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.help-panel .controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.help-panel .section-divider {
+    margin: 15px 0 10px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.help-panel .section-divider h4 {
+    margin: 0;
+    color: #ffccf2;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.google-login-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    color: #ea4335;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    z-index: 1001;
+    transition: background 0.2s, box-shadow 0.2s;
+    font-size: 20px;
+    padding: 0;
+}
+.google-login-btn i {
+    font-size: 22px;
+    color: #ea4335;
+}
+.google-login-btn:hover {
+    background: #f5f5f5;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* User logo styles */
+#userLogoContainer {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1002;
+}
+
+#userLogo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#userLogo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+/* User dropdown styles */
+#userDropdown {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    z-index: 1003;
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    min-width: 200px;
+    backdrop-filter: blur(10px);
+    animation: dropdownFadeIn 0.3s ease-out;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#userDropdown #logoutBtn:hover {
+    background: #e53935;
+}
+
+.touch-explore-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px #000, 0 0 20px #ffccf2;
+    user-select: none;
+    transition: opacity 0.3s;
+}
+
+@media (min-width: 800px) {
+    .touch-explore-overlay {
+        display: none !important;
+    }
+}
+
+@media (min-width: 800px) {
+    .fly-effect-btn { display: none !important; }
+}
+
+.gift-btn {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002;
+    background: #ff6b6b;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.gift-btn:active {
+    background: #e55a5a;
+}
+@media (max-width: 600px) {
+    .gift-btn {
+        font-size: 16px;
+        padding: 10px 18px;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .gift-btn::before {
+        content: "🎁";
+        font-size: 20px;
+        margin-right: 0;
+    }
+    .gift-btn {
+        font-size: 0;
+        padding: 12px;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Web con mobile - icon món quà ở góc phải */
+@media (max-width: 600px) {
+    body:has([href*="#config="]) .gift-btn,
+    body:has([href*="#id="]) .gift-btn {
+        left: auto;
+        right: 20px;
+        transform: none;
+    }
+}
+
+@media (min-width: 800px) {
+    .gift-btn { display: none !important; }
+}
+
+.label-pc {
+    display: inline-block;
+    background: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 12px;
+    margin-right: 6px;
+    font-weight: 600;
+}
+.label-mobile {
+    display: inline-block;
+    background: #28a745;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 12px;
+    margin-right: 6px;
+    font-weight: 600;
+}
+
+.controls.dashboard {
+    max-width: 420px;
+    min-width: 320px;
+    width: 90vw;
+    background: #181c2a;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    padding: 28px 24px 20px 24px;
+    color: #fff;
+    margin-top: 18px;
+}
+.tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+.tab-btn {
+    flex: 1;
+    background: #23284a;
+    color: #fff;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.tab-btn.active {
+    background: #ff6b6b;
+    color: #fff;
+}
+.preset-list {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.preset-item {
+    width: 80px;
+    height: 80px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 2px solid transparent;
+    margin-bottom: 8px;
+}
+.preset-item span {
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    font-size: 13px;
+    border-radius: 0 0 12px 12px;
+    padding: 3px 10px 5px 10px;
+    width: 100%;
+    text-align: center;
+}
+.preset-item:hover, .preset-item.selected {
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    border: 2px solid #ff6b6b;
+}
+@media (max-width: 600px) {
+    .controls.dashboard {
+        padding: 16px 6px 12px 6px;
+        min-width: 0;
+        width: 98vw;
+    }
+    .preset-item {
+        width: 68px;
+        height: 68px;
+    }
+}
+
+.preset-group-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ff6b6b;
+    margin: 10px 0 4px 0;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+.preset-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+    .preset-row {
+        gap: 7px;
+    }
+}
+
+/* Dashboard responsive cho mobile */
+@media (max-width: 600px) {
+  .dashboard {
+    max-width: 98vw !important;
+    min-width: unset !important;
+    width: 98vw !important;
+    margin: 10px auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    border-radius: 16px !important;
+    padding: 14px 8px 18px 8px !important;
+    box-sizing: border-box !important;
+    font-size: 1.08em !important;
+  }
+  .dashboard .controls-header h2 {
+    font-size: 1.15em !important;
+  }
+  .dashboard input[type="range"],
+  .dashboard input[type="color"],
+  .dashboard input[type="file"],
+  .dashboard button,
+  .dashboard label {
+    font-size: 1em !important;
+    min-height: 38px;
+  }
+  .dashboard .tab-bar button {
+    font-size: 1em !important;
+    min-width: 90px;
+    padding: 8px 0;
+  }
+  .dashboard .close-btn {
+    min-width: 38px;
+    min-height: 38px;
+  }
+}
+
+
+/* Nút mưa sao băng */
+.meteor-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #00f0ff, #0066ff);
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.meteor-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+}
+
+.meteor-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+.meteor-toggle-btn i {
+    color: white;
+    font-size: 18px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Hiệu ứng pulse khi mưa sao băng đang bật */
+.meteor-toggle-btn.active {
+    animation: meteorPulse 2s infinite;
+    background: linear-gradient(135deg, #ff6b6b, #ffd200);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+@keyframes meteorPulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(255, 107, 107, 0.6);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+}
+
+/* Ẩn nút mưa sao băng trên desktop */
+@media (min-width: 800px) {
+    .meteor-toggle-btn {
+        display: none !important;
+    }
+}
+
+/* Bảng hướng dẫn nhanh */
+.quick-help-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+    padding: 0;
+    border-radius: 15px;
+    z-index: 10000;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: none;
+}
+
+.quick-help-panel.active {
+    display: block;
+    animation: quickHelpFadeIn 0.3s ease;
+}
+
+@keyframes quickHelpFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.quick-help-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px 15px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-help-header h3 {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #fff;
+}
+
+.quick-help-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.quick-help-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.quick-help-content {
+    padding: 20px 25px 25px 25px;
+}
+
+.quick-help-section {
+    margin-bottom: 20px;
+}
+
+.quick-help-section:last-child {
+    margin-bottom: 0;
+}
+
+.quick-help-section h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-help-section p {
+    margin: 0 0 8px 0;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.quick-help-section p:last-child {
+    margin-bottom: 0;
+}
+
+.quick-help-section strong {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+/* Responsive cho bảng hướng dẫn nhanh */
+@media (max-width: 600px) {
+    .quick-help-panel {
+        max-width: 98vw;
+        width: 98vw;
+        max-height: 90vh;
+        border-radius: 12px;
+    }
+    
+    .quick-help-header {
+        padding: 12px 15px 8px 15px;
+    }
+    
+    .quick-help-header h3 {
+        font-size: 1.1em;
+    }
+    
+    .quick-help-content {
+        padding: 12px 15px 15px 15px;
+    }
+    
+    .quick-help-section {
+        margin-bottom: 15px;
+    }
+    
+    .quick-help-section h4 {
+        font-size: 0.95em;
+        margin-bottom: 6px;
+    }
+    
+    .quick-help-section p {
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+}
+
+/* Responsive cho mobile nhỏ hơn */
+@media (max-width: 480px) {
+    .quick-help-panel {
+        max-width: 99vw;
+        width: 99vw;
+        max-height: 92vh;
+        border-radius: 10px;
+    }
+    
+    .quick-help-header {
+        padding: 10px 12px 6px 12px;
+    }
+    
+    .quick-help-header h3 {
+        font-size: 1em;
+    }
+    
+    .quick-help-content {
+        padding: 10px 12px 12px 12px;
+    }
+    
+    .quick-help-section {
+        margin-bottom: 12px;
+    }
+    
+    .quick-help-section h4 {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+    }
+    
+    .quick-help-section p {
+        font-size: 0.8em;
+        line-height: 1.3;
+        margin-bottom: 5px;
+    }
+}
+
+/* Ẩn bảng hướng dẫn nhanh trên desktop nếu là mobile help */
+@media (min-width: 800px) {
+    .mobile-help {
+        display: none !important;
+    }
+}
+
+/* Ẩn bảng hướng dẫn nhanh trên mobile nếu là desktop help */
+@media (max-width: 799px) {
+    .desktop-help {
+        display: none !important;
+    }
+}
+
+/* Responsive cho mobile */
+@media (max-width: 600px) {
+    .help-panel.center {
+        min-width: 95vw;
+        max-width: 95vw;
+        max-height: 85vh;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .help-panel.center h3 {
+        font-size: 14px;
+    }
+    
+    .help-panel.center .help-section h4 {
+        font-size: 12px;
+    }
+    
+    .help-panel.center .help-section p,
+    .help-panel.center .help-section li {
+        font-size: 11px;
+    }
+}
+
+/* Responsive cho tablet */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .help-panel.center {
+        min-width: 80vw;
+        max-width: 80vw;
+    }
+}
+
+/* Responsive cho desktop */
+@media (min-width: 1025px) {
+    .help-panel.center {
+        min-width: 400px;
+        max-width: 600px;
+    }
+}

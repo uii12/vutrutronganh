@@ -13,7 +13,7 @@ export class Heart {
     loadModel() {
         const loader = new GLTFLoader();
         loader.load(
-            'assets/heart_in_love.glb',
+            'assets/big_heart.glb',
             (gltf) => {
                 this.model = gltf.scene;
                 

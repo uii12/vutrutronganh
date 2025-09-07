@@ -3,7 +3,7 @@ import * as THREE from 'three';
 export class AudioManager {
     constructor() {
         this.audio = document.getElementById('bg-audio');
-        this.defaultAudioUrl = 'assets/Nếu Như Ngày Ấy.mp3';
+        this.defaultAudioUrl = 'assets/NGÀN NĂM ÁNH SÁNG - ĐẶNG VĨNH THỊNH (Official Lyric Video) (mp3cut.net) (1).mp3';
         this.currentAudioUrl = null;
         this.isPlaying = false;
         this.isAudioLoaded = false;
@@ -76,4 +76,5 @@ export class AudioManager {
             console.error('Error playing audio:', error);
         }
     }
+
 } 

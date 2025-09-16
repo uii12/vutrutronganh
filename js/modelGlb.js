@@ -27,7 +27,7 @@ export class Heart {
                 this.modelGroup.add(this.model);
                 
                 // Điều chỉnh kích thước của model
-                this.model.scale.set(2, 2, 2); // Tăng kích thước lên để dễ nhìn thấy
+                this.model.scale.set(1, 1, 1); // Tăng kích thước lên để dễ nhìn thấy
                 
                 // Đặt vị trí của group
                 this.modelGroup.position.set(0, 200, 0);
